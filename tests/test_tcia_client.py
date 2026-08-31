@@ -5,7 +5,7 @@ from unittest.mock import MagicMock, patch
 import pytest
 import requests
 
-from TCIAClient import TCIAClient
+from tcia_client import TCIAClient
 
 
 BASE_URL = "https://example.com/services/v4/TCIA/query"
@@ -31,7 +31,7 @@ class TestGetJson:
         response = MagicMock()
         response.json.return_value = {"ok": True}
 
-        with patch("TCIAClient.requests.get", return_value=response) as mock_get:
+        with patch("tcia_client.requests.get", return_value=response) as mock_get:
             result = client.get_json("getCollectionValues")
 
         assert result == {"ok": True}
@@ -43,7 +43,7 @@ class TestGetJson:
         response = MagicMock()
         response.json.return_value = []
 
-        with patch("TCIAClient.requests.get", return_value=response) as mock_get:
+        with patch("tcia_client.requests.get", return_value=response) as mock_get:
             client.get_json("getSeries", params={"Collection": "TCGA-LUAD"})
 
         _, kwargs = mock_get.call_args
@@ -74,7 +74,7 @@ class TestGetImage:
         response = self._mock_streaming_response(payload)
         target = tmp_path / "downloads" / "image.zip"
 
-        with patch("TCIAClient.requests.get", return_value=response) as mock_get:
+        with patch("tcia_client.requests.get", return_value=response) as mock_get:
             result = client.get_image("1.2.3", target, unzip=False, remove_zip=False)
 
         assert result is True
@@ -88,7 +88,7 @@ class TestGetImage:
         response = self._mock_streaming_response(payload)
         target = tmp_path / "downloads" / "image.zip"
 
-        with patch("TCIAClient.requests.get", return_value=response):
+        with patch("tcia_client.requests.get", return_value=response):
             client.get_image("1.2.3", target, unzip=True, remove_zip=False)
 
         assert target.exists()
@@ -99,7 +99,7 @@ class TestGetImage:
         response = self._mock_streaming_response(payload)
         target = tmp_path / "downloads" / "image.zip"
 
-        with patch("TCIAClient.requests.get", return_value=response):
+        with patch("tcia_client.requests.get", return_value=response):
             client.get_image("1.2.3", target, unzip=True, remove_zip=True)
 
         assert not target.exists()
@@ -112,7 +112,7 @@ class TestGetImage:
         response.__exit__.return_value = False
         target = tmp_path / "downloads" / "image.zip"
 
-        with patch("TCIAClient.requests.get", return_value=response):
+        with patch("tcia_client.requests.get", return_value=response):
             with pytest.raises(requests.HTTPError):
                 client.get_image("1.2.3", target, unzip=False, remove_zip=False)
 
@@ -124,6 +124,6 @@ class TestGetImage:
         response = self._mock_streaming_response(b"data")
         target = tmp_path / "image.zip"
 
-        with patch("TCIAClient.requests.get", return_value=response):
+        with patch("tcia_client.requests.get", return_value=response):
             with pytest.raises(FileExistsError):
                 client.get_image("1.2.3", target, unzip=False, remove_zip=False)

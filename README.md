@@ -23,7 +23,7 @@ The client's only runtime dependency is [`requests`](https://pypi.org/project/re
 ## Quick start
 
 ```python
-from TCIAClient import TCIAClient
+from tcia_client import TCIAClient
 
 base_url = 'https://nbia.cancerimagingarchive.net/nbia-api/services/v4/'
 client = TCIAClient(base_url)
