@@ -1,0 +1,18 @@
+[project]
+name = "tcia-client"
+version = "0.1.0"
+description = "Minimal client for downloading data from The Cancer Imaging Archive (TCIA)"
+readme = "README.md"
+requires-python = ">=3.9"
+dependencies = [
+    "requests>=2.25",
+]
+
+[tool.pytest.ini_options]
+pythonpath = ["."]
+testpaths = ["tests"]
+
+[dependency-groups]
+dev = [
+    "pytest>=8.4.2",
+]
