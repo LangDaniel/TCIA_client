@@ -34,13 +34,13 @@ client = TCIAClient(base_url)
 `get_json` calls a TCIA API endpoint and returns the parsed JSON response. Any endpoint-specific parameters are passed as a dict.
 
 ```python
-collections = client.get_json('getCollectionValues')
-# [{'Collection': '4D-Lung'}, {'Collection': 'A091105'}, ...]
+collections = client.get_json('getCollectionValues') # lists all available collections
+# [{'Collection': '4D-Lung'}, ..., {'Collection': 'LIDC-IDRI'}, ...]
 
-series = client.get_json('getSeries', {'Collection': 'Lung-PET-CT-Dx'})
+series = client.get_json('getSeries', {'Collection': 'Lung-PET-CT-Dx'}) # returns all series information of a collection
 # [{'SeriesInstanceUID': '1.3.6.1...', 'Modality': 'CT', ...}, ...]
 
-patients = client.get_json('getPatientStudy', {'Collection': 'Lung-PET-CT-Dx'})
+patients = client.get_json('getPatientStudy', {'Collection': 'Lung-PET-CT-Dx'}) # returns all patient information of a collection
 # [{'PatientID': 'Lung_Dx-A0001', 'PatientSex': 'M', ...}, ...]
 ```
 
@@ -59,7 +59,7 @@ See the [TCIA REST API](https://nbia.cancerimagingarchive.net/nbia-api/services/
 `get_image` downloads a series by its `SeriesInstanceUID`, optionally unzipping the result and/or removing the archive afterwards.
 
 ```python
-series_uid = series[0]['SeriesInstanceUID']
+series_uid = series_df.iloc[0]['SeriesInstanceUID']
 
 client.get_image(
     series_instance_uid=series_uid,
@@ -71,5 +71,5 @@ client.get_image(
 
 ## Development notes
 
-- API responses are consumed as-is (`get_json`) — the client does no schema validation, so unexpected fields from the API pass straight through.
-- `get_image` creates the parent directory of `local_path` for you; it does not currently overwrite an existing directory (see [tests/test_tcia_client.py](tests/test_tcia_client.py) for the documented behavior).
+- API responses are consumed as-is,  the client does no schema validation, so unexpected fields from the API pass straight through.
+- `get_image` creates the parent directory of `local_path` for you. It does not currently overwrite an existing directory (see [tests/test_tcia_client.py](tests/test_tcia_client.py) for the documented behavior).
