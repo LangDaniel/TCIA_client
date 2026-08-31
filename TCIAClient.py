@@ -2,7 +2,6 @@ from pathlib import Path
 import requests
 from zipfile import ZipFile
 
-base_url = 'https://services.cancerimagingarchive.net/services/v4/TCIA/query'
 
 class TCIAClient:
     def __init__(self, url):
