@@ -52,7 +52,7 @@ import pandas as pd
 series_df = pd.DataFrame(client.get_json('getSeries', {'Collection': 'Lung-PET-CT-Dx'}))
 ```
 
-See the [TCIA REST API](https://nbia.cancerimagingarchive.net/nbia-api/services/v4/) for the full list of available endpoints and their parameters.
+See [here](https://cbiit.github.io/NBIA-TCIA/) for the full list of available endpoints and their parameters.
 
 ### Downloading an image series
 
